@@ -350,7 +350,7 @@
         <div class="bd">
           <div class="grid" id="buttonGrid"></div>
           <div class="bottombar">
-            小技巧：桌面版可按 <span class="kbd">Space</span> 即刻停；連播太快會重疊，所以我會自動「先停再播」。
+            小技巧：桌面版可按 <span class="kbd">Space</span> 即刻停；輸入框：<span class="kbd">Enter</span> 即播、<span class="kbd">Ctrl/⌘</span> + <span class="kbd">Enter</span> 加入清單。
           </div>
         </div>
       </div>
@@ -386,7 +386,7 @@
   const DEFAULT_PHRASES = [
     "我俾條安全帶kick住咗，司機等埋我落車先閂門吖，唔該晒！",
     "司機大哥，條安全帶鬆唔開呀，救我！",
- "隔離呢位乘客你好，因為我要落車，但又因為你坐咗喺度我行唔到出去，麻煩你先鬆一鬆安全帶比我落車先吖！求下你！"
+    "隔離呢位乘客你好，因為我要落車，但又因為你坐咗喺度我行唔到出去，麻煩你先鬆一鬆安全帶比我落車先吖！求下你！",
     "唔好閂門住！我隔離嗰個未鬆到條安全帶比我落車呀！",
     "司機我下站有落，但我比條安全帶cool住咗，撳唔到落車鐘呀！"
   ];
@@ -514,7 +514,7 @@
     }[m]));
   }
 
-  function makeButton(text, idx, isCustom){
+  function makeButton(text, idx, isCustom, customIndex){
     const style = iconStyles[idx % iconStyles.length];
     const btn = document.createElement("button");
     btn.type = "button";
@@ -523,7 +523,7 @@
       <div class="badgeIcon ${style.cls}">${style.icon}</div>
       <div class="meta">
         <div class="routeRow">
-          <div class="routeNo">${isCustom ? "U-" + (idx+1) : style.route}</div>
+          <div class="routeNo">${isCustom ? "U-" + String(customIndex).padStart(2,"0") : style.route}</div>
           <div class="chip">${isCustom ? "你加嘅句" : style.chip}</div>
         </div>
         <div class="phrase">${escapeHtml(text)}</div>
@@ -539,9 +539,11 @@
     const custom = loadCustomPhrases();
     const all = [...DEFAULT_PHRASES, ...custom];
 
+    let customCounter = 0;
     all.forEach((t, i) => {
       const isCustom = i >= DEFAULT_PHRASES.length;
-      const btn = makeButton(t, i, isCustom);
+      if (isCustom) customCounter += 1;
+      const btn = makeButton(t, i, isCustom, customCounter);
       grid.appendChild(btn);
     });
 
@@ -564,15 +566,13 @@
 
   addBtn.addEventListener("click", () => {
     const t = (customInput.value || "").trim();
-    if (!t) {
-      customInput.focus();
-      return;
-    }
+    if (!t) { customInput.focus(); return; }
+
     const custom = loadCustomPhrases();
 
     // Avoid duplicates (simple)
     if (!custom.includes(t)) {
-      custom.unshift(t); // newest first
+      custom.unshift(t);                 // newest first
       saveCustomPhrases(custom.slice(0, 20)); // keep max 20
     }
 
@@ -582,4 +582,25 @@
   });
 
   clearBtn.addEventListener("click", () => {
-    localStorage.removeIte
+    localStorage.removeItem(STORAGE_KEY);
+    render();
+    stopSpeaking();
+  });
+
+  // Bonus UX: Enter to speak, Ctrl/⌘+Enter to add
+  customInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      if (e.ctrlKey || e.metaKey) {
+        addBtn.click();
+      } else {
+        speakNowBtn.click();
+      }
+    }
+  });
+
+  // initial render
+  render();
+</script>
+</body>
+</html>
