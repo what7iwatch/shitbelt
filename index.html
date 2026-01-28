@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="zh-HK">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>落車救命按鍵（廣東話）</title>
+  <style>
+    :root {
+      --bg: #0b0f17;
+      --card: rgba(255,255,255,0.06);
+      --card2: rgba(255,255,255,0.08);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.65);
+      --danger: #ff4d4d;
+      --ok: #33d17a;
+      --border: rgba(255,255,255,0.14);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(76,110,245,.25), transparent 60%),
+        radial-gradient(900px 500px at 90% 40%, rgba(255,77,77,.18), transparent 60%),
+        radial-gradient(700px 500px at 50% 90%, rgba(51,209,122,.14), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100svh;
+      display: flex;
+      justify-content: center;
+      padding: 18px;
+    }
+    .wrap { width: min(920px, 100%); }
+    header {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    h1 { margin: 0; font-size: clamp(22px, 3.6vw, 32px); letter-spacing: .3px; }
+    .hint {
+      margin: 6px 0 0;
+      color: var(--muted);
+      line-height: 1.35;
+      font-size: 14px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+      font-size: 14px;
+      color: var(--text);
+      user-select: none;
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #999; }
+    .dot.ok { background: var(--ok); }
+    .dot.bad { background: var(--danger); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    @media (min-width: 760px) {
+      .grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--card2), var(--card));
+      color: var(--text);
+      border-radius: var(--radius);
+      padding: 16px 16px 14px;
+      box-shadow: var(--shadow);
+      text-align: left;
+      cursor: pointer;
+      transition: transform .05s ease, border-color .12s ease, background .12s ease;
+      min-height: 112px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .btn:active { transform: scale(.99); }
+    .btn:hover { border-color: rgba(255,255,255,0.25); }
+    .icon {
+      width: 44px; height: 44px;
+      border-radius: 14px;
+      display: grid; place-items: center;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.06);
+      flex: 0 0 auto;
+      font-size: 22px;
+    }
+    .text { flex: 1 1 auto; }
+    .label { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+    .phrase { font-size: 18px; line-height: 1.25; letter-spacing: .2px; }
+
+    .panel {
+      margin-top: 14px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 14px;
+    }
+    .panel h2 {
+      font-size: 16px;
+      margin: 0 0 10px;
+      color: rgba(255,255,255,0.85);
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    @media (min-width: 760px) {
+      .row { grid-template-columns: 1.2fr 1fr 1fr; align-items: end; }
+    }
+    .field label {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    select, input[type="range"] {
+      width: 100%;
+    }
+    select {
+      background: rgba(0,0,0,0.25);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      outline: none;
+    }
+    .rangeWrap {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      background: rgba(0,0,0,0.18);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 8px 10px;
+    }
+    .pill {
+      font-variant-numeric: tabular-nums;
+      font-size: 12px;
+      color: rgba(255,255,255,0.8);
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.06);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .mini {
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,0.22);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 12px 14px;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      font-size: 14px;
+    }
+    .mini.danger { border-color: rgba(255,77,77,0.45); }
+    .mini:active { transform: scale(.99); }
+
+    .footer {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .kbd {
+      display: inline-block;
+      padding: 2px 8px;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-bottom-color: rgba(255,255,255,0.28);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.06);
+      font-size: 12px;
+      color: rgba(255,255,255,0.85);
+      margin: 0 2px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>落車救命按鍵（廣東話）</h1>
+        <div class="hint">
+          先喺你部手機/電腦 <b>將媒體音量調到最大</b>，然後一按即播。<br/>
+          若你見到「未偵測到廣東話聲」，可以手動揀 Voice，或者改用 Chrome / iOS Safari 試下。
+        </div>
+      </div>
+      <div class="badge" id="statusBadge">
+        <span class="dot" id="statusDot"></span>
+        <span id="statusText">正在偵測語音…</span>
+      </div>
+    </header>
+
+    <main class="grid" id="buttonGrid"></main>
+
+    <section class="panel">
+      <h2>設定</h2>
+      <div class="row">
+        <div class="field">
+          <label for="voiceSelect">Voice（建議揀 Cantonese / zh-HK）</label>
+          <select id="voiceSelect"></select>
+        </div>
+
+        <div class="field">
+          <label for="rateRange">語速</label>
+          <div class="rangeWrap">
+            <input id="rateRange" type="range" min="0.7" max="1.2" step="0.05" value="0.95" />
+            <span class="pill" id="rateVal">0.95</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="pitchRange">音高</label>
+          <div class="rangeWrap">
+            <input id="pitchRange" type="range" min="0.7" max="1.3" step="0.05" value="1.00" />
+            <span class="pill" id="pitchVal">1.00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="mini" id="testBtn">🔊 試播（廣東話）</button>
+        <button class="mini danger" id="stopBtn">⛔ 停止播放</button>
+      </div>
+
+      <div class="footer">
+        小技巧：桌面版可以用 <span class="kbd">Space</span> 停止播放；手機版可以直接撳「停止播放」。
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // ===== 你嘅句子（之後要加，就喺呢度加）=====
+    const PHRASES = [
+      "我俾條安全帶kick住咗，司機等埋我落車先閂門吖，唔該晒！",
+      "司機大哥，條安全帶鬆唔開呀，救我！",
+      "唔好閂門住！我隔離嗰個未鬆到條安全帶比我落車呀！",
+      "司機我下站有落，但我比條安全帶cool住咗，撳唔到落車鐘呀！"
+    ];
+
+    const grid = document.getElementById("buttonGrid");
+    const voiceSelect = document.getElementById("voiceSelect");
+    const statusDot = document.getElementById("statusDot");
+    const statusText = document.getElementById("statusText");
+
+    const rateRange = document.getElementById("rateRange");
+    const pitchRange = document.getElementById("pitchRange");
+    const rateVal = document.getElementById("rateVal");
+    const pitchVal = document.getElementById("pitchVal");
+
+    const testBtn = document.getElementById("testBtn");
+    const stopBtn = document.getElementById("stopBtn");
+
+    // UI: build big buttons
+    const icons = ["🚪", "🆘", "✋", "🔔"];
+    PHRASES.forEach((text, i) => {
+      const btn = document.createElement("button");
+      btn.className = "btn";
+      btn.type = "button";
+      btn.innerHTML = `
+        <div class="icon">${icons[i % icons.length]}</div>
+        <div class="text">
+          <div class="label">一按即播</div>
+          <div class="phrase">${escapeHtml(text)}</div>
+        </div>
+      `;
+      btn.addEventListener("click", () => speak(text));
+      grid.appendChild(btn);
+    });
+
+    // ===== Speech Synthesis =====
+    let voices = [];
+    let selectedVoice = null;
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>"']/g, (m) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      }[m]));
+    }
+
+    function setStatus(ok, msg) {
+      statusDot.className = "dot " + (ok ? "ok" : "bad");
+      statusText.textContent = msg;
+    }
+
+    function loadVoices() {
+      voices = window.speechSynthesis?.getVoices?.() || [];
+      voiceSelect.innerHTML = "";
+
+      if (!voices.length) {
+        setStatus(false, "未載入到語音（等一陣或換瀏覽器）");
+        return;
+      }
+
+      // Sort: prefer Cantonese / zh-HK first, then Chinese, then others
+      const scored = voices.map(v => {
+        const name = (v.name || "").toLowerCase();
+        const lang = (v.lang || "").toLowerCase();
+        let score = 0;
+
+        // Strong preference for Cantonese / Hong Kong
+        if (lang === "zh-hk") score += 100;
+        if (name.includes("cantonese")) score += 100;
+        if (name.includes("hong kong") || name.includes("hongkong")) score += 40;
+
+        // Chinese fallback
+        if (lang.startsWith("zh")) score += 20;
+
+        // Some OS label voices as "yue" (Cantonese)
+        if (lang.startsWith("yue")) score += 90;
+
+        // Prefer local voices
+        if (v.localService) score += 5;
+
+        return { v, score };
+      }).sort((a,b) => b.score - a.score);
+
+      scored.forEach(({ v }, idx) => {
+        const opt = document.createElement("option");
+        opt.value = String(idx);
+        opt.textContent = `${v.name} — ${v.lang}${v.localService ? "（本機）" : ""}`;
+        voiceSelect.appendChild(opt);
+      });
+
+      // Auto-pick best voice
+      selectedVoice = scored[0]?.v || null;
+      voiceSelect.value = "0";
+
+      if (selectedVoice) {
+        const lang = (selectedVoice.lang || "").toLowerCase();
+        const name = (selectedVoice.name || "").toLowerCase();
+        const isCanto = (lang === "zh-hk") || lang.startsWith("yue") || name.includes("cantonese");
+        setStatus(isCanto, isCanto ? "已偵測到廣東話聲（建議）" : "未必係廣東話（可手動揀 Voice）");
+      } else {
+        setStatus(false, "冇可用語音（此瀏覽器可能唔支援）");
+      }
+    }
+
+    // Some browsers load voices asynchronously
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+      // Try load now too
+      loadVoices();
+    } else {
+      setStatus(false, "此瀏覽器唔支援語音播放（speechSynthesis）");
+    }
+
+    voiceSelect.addEventListener("change", () => {
+      const idx = Number(voiceSelect.value);
+      const list = window.speechSynthesis.getVoices();
+      // Re-score order -> map selection to the same ordering we rendered
+      const scored = list.map(v => {
+        const name = (v.name || "").toLowerCase();
+        const lang = (v.lang || "").toLowerCase();
+        let score = 0;
+        if (lang === "zh-hk") score += 100;
+        if (name.includes("cantonese")) score += 100;
+        if (name.includes("hong kong") || name.includes("hongkong")) score += 40;
+        if (lang.startsWith("zh")) score += 20;
+        if (lang.startsWith("yue")) score += 90;
+        if (v.localService) score += 5;
+        return { v, score };
+      }).sort((a,b) => b.score - a.score);
+
+      selectedVoice = scored[idx]?.v || scored[0]?.v || null;
+
+      if (selectedVoice) {
+        const lang = (selectedVoice.lang || "").toLowerCase();
+        const name = (selectedVoice.name || "").toLowerCase();
+        const isCanto = (lang === "zh-hk") || lang.startsWith("yue") || name.includes("cantonese");
+        setStatus(isCanto, isCanto ? "已選：廣東話 / 香港聲" : "已選：非廣東話（但仍可播）");
+      }
+    });
+
+    rateRange.addEventListener("input", () => rateVal.textContent = Number(rateRange.value).toFixed(2));
+    pitchRange.addEventListener("input", () => pitchVal.textContent = Number(pitchRange.value).toFixed(2));
+
+    function stopSpeaking() {
+      try { window.speechSynthesis.cancel(); } catch (e) {}
+    }
+
+    function speak(text) {
+      if (!("speechSynthesis" in window)) return;
+
+      // Stop any current speech to avoid overlap
+      stopSpeaking();
+
+      const utter = new SpeechSynthesisUtterance(text);
+
+      // Prefer Cantonese / HK
+      // Note: Some engines ignore lang if voice is set.
+      utter.lang = "zh-HK";
+
+      if (selectedVoice) utter.voice = selectedVoice;
+
+      utter.rate = Number(rateRange.value);
+      utter.pitch = Number(pitchRange.value);
+
+      // Max possible in Web Speech API (still limited by system volume)
+      utter.volume = 1.0;
+
+      // (Optional) Slightly clearer by adding a tiny pause before speaking (some mobile browsers)
+      setTimeout(() => window.speechSynthesis.speak(utter), 80);
+    }
+
+    testBtn.addEventListener("click", () => {
+      speak("司機大哥唔該，等埋我落車先閂門呀！");
+    });
+
+    stopBtn.addEventListener("click", stopSpeaking);
+
+    // Keyboard shortcut: Space to stop
+    window.addEventListener("keydown", (e) => {
+      if (e.code === "Space") {
+        e.preventDefault();
+        stopSpeaking();
+      }
+    });
+  </script>
+</body>
+</html>
+
