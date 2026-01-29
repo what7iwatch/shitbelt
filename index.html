@@ -1,13 +1,13 @@
-
 <!doctype html>
 <html lang="zh-HK">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>巴士落車神器（安全帶專用）</title>
-
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚍</text></svg>"> <!-- [web:6] -->
-
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' text-anchor='middle'>🚍</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' text-anchor='middle'>🚍</text></svg>">
+  
   <style>
     :root{
       --bg:#0b0f14;
@@ -16,7 +16,6 @@
       --text:rgba(255,255,255,.92);
       --muted:rgba(255,255,255,.62);
 
-      /* HK transport-ish accents */
       --mtr:#18c37e;
       --kmb:#e60012;
       --taxi:#ffcc00;
@@ -45,7 +44,6 @@
 
     .app{ width:min(980px, 100%); }
 
-    /* Top bar */
     .topbar{
       position:sticky; top:0;
       z-index:5;
@@ -107,7 +105,6 @@
     .mini:active{ transform: scale(.99); }
     .mini:hover{ border-color: rgba(230,0,18,.62); }
 
-    /* Layout */
     .layout{
       display:grid;
       grid-template-columns: 1fr;
@@ -117,7 +114,6 @@
       .layout{ grid-template-columns: 1.15fr .85fr; align-items:start; }
     }
 
-    /* Cards */
     .card{
       border:1px solid var(--stroke);
       background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.025));
@@ -154,7 +150,6 @@
     }
     .card .bd{ padding:12px; }
 
-    /* Buttons grid */
     .grid{
       display:grid;
       grid-template-columns: 1fr;
@@ -229,7 +224,6 @@
       line-height:1.45;
     }
 
-    /* Composer */
     textarea{
       width:100%;
       resize: none;
@@ -274,7 +268,6 @@
       background: rgba(230,0,18,.10);
     }
 
-    /* Bottom hint */
     .bottombar{
       margin-top:12px;
       border:1px dashed rgba(255,255,255,.16);
@@ -339,7 +332,7 @@
           <span class="tag">自訂</span>
         </div>
         <div class="bd">
-          <textarea id="customInput" placeholder="例如：你條安全帶點解會有錫紙呢？"></textarea>
+          <textarea id="customInput" placeholder="例如：司機唔該等一等！我條安全帶卡住呀！"></textarea>
 
           <div class="composerActions">
             <button class="btn primary" id="speakNowBtn">🔊 即刻播</button>
@@ -358,7 +351,6 @@
   </div>
 
 <script>
-  // ===== Default phrases (preset) =====
   const DEFAULT_ITEMS = [
     {
       label: "卡安全帶",
@@ -392,7 +384,6 @@
     }
   ];
 
-  // ===== UI refs =====
   const grid = document.getElementById("buttonGrid");
   const countTag = document.getElementById("countTag");
   const stopBtn = document.getElementById("stopBtn");
@@ -401,7 +392,6 @@
   const addBtn = document.getElementById("addBtn");
   const clearBtn = document.getElementById("clearBtn");
 
-  // ===== Storage =====
   const STORAGE_KEY = "hk_fun_canto_phrases_v2";
   function loadCustomPhrases(){
     try{
@@ -416,7 +406,6 @@
     localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
   }
 
-  // ===== Speech setup =====
   let selectedVoice = null;
 
   function pickBestVoice(){
@@ -467,7 +456,6 @@
     setTimeout(() => window.speechSynthesis.speak(u), 60);
   }
 
-  // ===== Render =====
   function escapeHtml(str){
     return str.replace(/[&<>"']/g, m => ({
       "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
@@ -507,7 +495,6 @@
     countTag.textContent = String(all.length);
   }
 
-  // ===== Events =====
   stopBtn.addEventListener("click", stopSpeaking);
 
   window.addEventListener("keydown", (e) => {
@@ -540,7 +527,6 @@
     stopSpeaking();
   });
 
-  // Enter to speak, Ctrl/⌘+Enter to add
   customInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
