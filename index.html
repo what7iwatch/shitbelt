@@ -1,26 +1,13 @@
+
 <!doctype html>
 <html lang="zh-HK">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>巴士落車神器（安全帶專用）</title>
-  
-<section class="topbar">
-  <div class="toprow">
-    <div class="brand">
-      <div class="logo">
-        <img src="shitbelt.jpg" alt="巴士落車神器" style="width:100%; height:100%; object-fit:cover; border-radius: inherit;">
-      </div>
-      <div style="min-width:0">
-        <h1>巴直落車神器（安全帶專用）</h1>
-        <div class="sub">
-          提提你：<strong>記得將電話開到最大聲</strong>。
-        </div>
-      </div>
-    </div>
-    <button class="mini" id="stopBtn">⛔ 即刻收聲</button>
-  </div>
-</section>
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚍</text></svg>"> <!-- [web:6] -->
+
   <style>
     :root{
       --bg:#0b0f14;
@@ -327,14 +314,12 @@
           </div>
         </div>
 
-        <!-- Stop button pinned to far right -->
         <button class="mini" id="stopBtn">⛔ 即刻收聲</button>
       </div>
     </section>
 
     <section class="layout">
 
-      <!-- Left: buttons -->
       <div class="card">
         <div class="hd">
           <p class="hdTitle">📍 一撳即播</p>
@@ -348,14 +333,13 @@
         </div>
       </div>
 
-      <!-- Right: user input -->
       <div class="card">
         <div class="hd">
           <p class="hdTitle">✍️ 自己入一句</p>
           <span class="tag">自訂</span>
         </div>
         <div class="bd">
-          <textarea id="customInput" placeholder="例如：司機唔該等一等！我條安全帶卡住呀！"></textarea>
+          <textarea id="customInput" placeholder="例如：你條安全帶點解會有錫紙呢？"></textarea>
 
           <div class="composerActions">
             <button class="btn primary" id="speakNowBtn">🔊 即刻播</button>
